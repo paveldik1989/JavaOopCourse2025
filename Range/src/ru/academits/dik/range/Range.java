@@ -32,4 +32,9 @@ public class Range {
     public boolean isInside(double point) {
         return point >= from && point <= to;
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%f, %f]", from, to);
+    }
 }
