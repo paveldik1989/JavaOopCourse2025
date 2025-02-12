@@ -24,14 +24,15 @@ public class Main {
 
         System.out.println("Лежит ли точка внутри отрезка: " + range.isInside(point));
 
-        System.out.println("Введите новое значение начала отрезка: ");
+        System.out.print("Введите новое значение начала отрезка: ");
         from = scanner.nextDouble();
+
         range.setFrom(from);
 
-        System.out.println("Введите новое значение конца отрезка: ");
+        System.out.print("Введите новое значение конца отрезка: ");
         to = scanner.nextDouble();
-        range.setTo(to);
 
+        range.setTo(to);
 
         System.out.println("Теперь отрезок выглядит так: " + range);
         System.out.println("Начало отрезка: " + range.getFrom());
