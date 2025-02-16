@@ -34,21 +34,24 @@ public class Rectangle implements Shape {
 
     @Override
     public double getPerimeter() {
-        return 2 * width + 2 * height;
+        return 2 * (width + height);
     }
 
     @Override
     public String toString() {
-        return String.format("{Прямоугольник, стороны: %f, %f}", width, height);
+        return String.format("{Прямоугольник, ширина: %f, высота: %f}", width, height);
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
-        } else if (o == null || o.getClass() != getClass()) {
+        }
+
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
+
         Rectangle rectangle = (Rectangle) o;
         return Double.compare(width, rectangle.width) == 0 && Double.compare(height, rectangle.height) == 0;
     }

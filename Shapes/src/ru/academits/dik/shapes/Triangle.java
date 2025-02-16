@@ -82,9 +82,11 @@ public class Triangle implements Shape {
 
     @Override
     public double getPerimeter() {
-        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)) +
-                Math.sqrt(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2)) +
-                Math.sqrt(Math.pow((x3 - x1), 2) + Math.pow((y3 - y1), 2));
+        return getSideLength(x1, y1, x2, y2) + getSideLength(x2, y2, x3, y3) + getSideLength(x1, y1, x3, y3);
+    }
+
+    private static double getSideLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     @Override
@@ -96,9 +98,12 @@ public class Triangle implements Shape {
     public boolean equals(Object o) {
         if (o == this) {
             return true;
-        } else if (o == null || o.getClass() != getClass()) {
+        }
+
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
+
         Triangle triangle = (Triangle) o;
         return Double.compare(x1, triangle.x1) == 0 && Double.compare(y1, triangle.y1) == 0 &&
                 Double.compare(x2, triangle.x2) == 0 && Double.compare(y2, triangle.y2) == 0 &&

@@ -37,17 +37,19 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return String.format("{квадрат, сторона: %f}", side);
+        return String.format("{Квадрат, сторона: %f}", side);
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
-        } else if (o == null || o.getClass() != getClass()) {
+        }
+
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
+
         Square square = (Square) o;
         return Double.compare(side, square.side) == 0;
     }

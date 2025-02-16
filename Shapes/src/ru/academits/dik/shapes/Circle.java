@@ -44,14 +44,14 @@ public class Circle implements Shape {
     public boolean equals(Object o) {
         if (o == this) {
             return true;
-        } else if (o == null || o.getClass() != getClass()) {
+        }
+
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
+
         Circle circle = (Circle) o;
         return Double.compare(radius, circle.radius) == 0;
-        //  if (o == null || getClass() != o.getClass()) return false; Идея почему то генерирует такой код, т.е. не делает проверку на равенство ссылок, это нормально?
-        //  Circle circle = (Circle) o;
-        //  return Double.compare(radius, circle.radius) == 0;
     }
 
     @Override
