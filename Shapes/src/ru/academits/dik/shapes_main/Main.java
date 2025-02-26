@@ -8,7 +8,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Shape[] shapes = {new Circle(1),
+        Shape[] shapes = {
+                new Circle(1),
                 new Circle(2),
                 new Circle(3),
                 new Rectangle(1, 4),
@@ -19,7 +20,8 @@ public class Main {
                 new Square(3),
                 new Triangle(0, 0, 1, 1, 1, 0),
                 new Triangle(0, 0, 1, 1, 2, 0),
-                new Triangle(0, 0, 1, 1, 3, 0)};
+                new Triangle(0, 0, 1, 1, 3, 0)
+        };
 
         System.out.println("Массив фигур: " + Arrays.toString(shapes));
 
@@ -36,11 +38,12 @@ public class Main {
         }
 
         Arrays.sort(shapes, new ShapesAreaComparator());
-        System.out.println("Фигура с наибольшей площадью: " + shapes[shapes.length - 1]);
-        System.out.println("Ширина этой фигуры: " + shapes[shapes.length - 1].getWidth());
-        System.out.println("Высота этой фигуры: " + shapes[shapes.length - 1].getHeight());
+        int lastIndex = shapes.length - 1;
+        System.out.println("Фигура с наибольшей площадью: " + shapes[lastIndex]);
+        System.out.println("Ширина этой фигуры: " + shapes[lastIndex].getWidth());
+        System.out.println("Высота этой фигуры: " + shapes[lastIndex].getHeight());
 
         Arrays.sort(shapes, new ShapesPerimeterComparator());
-        System.out.println("Фигура со вторым по величине периметром: " + shapes[shapes.length - 2]);
+        System.out.println("Фигура со вторым по величине периметром: " + shapes[lastIndex - 1]);
     }
 }
