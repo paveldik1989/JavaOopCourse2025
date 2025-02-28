@@ -23,17 +23,15 @@ public class Main {
         Vector vector2 = new Vector(vector1);
         Vector vector3 = new Vector(new double[]{1, 1, 1});
         Vector vector4 = new Vector(10, new double[]{1, 1, 1});
-        Vector vector5 = new Vector(2, new double[]{1, 1, 1});
 
         System.out.println(vector1);
         System.out.println(vector2);
         System.out.println(vector3);
         System.out.println(vector4);
-        System.out.println(vector5);
 
         try {
-            Vector vector6 = new Vector(-1);
-            System.out.println(vector6);
+            Vector vector5 = new Vector(-1);
+            System.out.println(vector5);
         } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
@@ -60,7 +58,7 @@ public class Main {
 
         Vector vector5 = new Vector(new double[]{1, 1, 1});
         Vector vector6 = new Vector(new double[]{2, 2, 2});
-        System.out.println(Vector.getSum(vector5, vector6));
+        System.out.println(Vector.add(vector5, vector6));
     }
 
     public static void testSubtract() {
@@ -84,17 +82,16 @@ public class Main {
 
         Vector vector5 = new Vector(new double[]{1, 1, 1});
         Vector vector6 = new Vector(new double[]{2, 2, 2});
-        System.out.println(Vector.getDifference(vector5, vector6));
+        System.out.println(Vector.subtract(vector5, vector6));
     }
 
     public static void testGetSetComponent() {
         System.out.println("Тест получения и задания компонента:");
 
         Vector vector1 = new Vector(new double[]{1, 1, 1});
-
         try {
             vector1.getComponent(-1);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
 
@@ -102,7 +99,7 @@ public class Main {
 
         try {
             vector1.setComponent(-1, 9999);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
 
