@@ -15,7 +15,7 @@ public class Main {
                 {new Range(2, 3), new Range(1, 4)}};
 
         for (Range[] testPairRanges : testPairsRanges) {
-            System.out.println("Тестовые отрезки 1 и 2: " + Arrays.toString(testPairRanges));
+            System.out.println("Тестовые  отрезки 1 и 2: " + Arrays.toString(testPairRanges));
             System.out.println("Пересечение отрезков: " + testPairRanges[0].getIntersection(testPairRanges[1]));
             System.out.println("Объединение отрезков: " + Arrays.toString(testPairRanges[0].getUnion(testPairRanges[1])));
             System.out.println("Вычитание из отрезка 1 отрезка 2: " + Arrays.toString(testPairRanges[0].getDifference(testPairRanges[1])));
