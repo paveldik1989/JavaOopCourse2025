@@ -7,19 +7,19 @@ import java.util.Arrays;
 public class Matrix {
     Vector[] vectors;
 
-    public Matrix(int n, int m) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("Количество строк в матрице должно быть больше 0, а вы ввели: " + n);
+    public Matrix(int rowsAmount, int columnsAmount) {
+        if (rowsAmount <= 0) {
+            throw new IllegalArgumentException("Количество строк в матрице должно быть больше 0, а вы ввели: " + rowsAmount);
         }
 
-        if (m <= 0) {
-            throw new IllegalArgumentException("Количество столбцов в матрице должно быть больше 0, а вы ввели: " + m);
+        if (columnsAmount <= 0) {
+            throw new IllegalArgumentException("Количество столбцов в матрице должно быть больше 0, а вы ввели: " + columnsAmount);
         }
 
-        vectors = new Vector[n];
+        vectors = new Vector[rowsAmount];
 
-        for (int i = 0; i < n; i++) {
-            vectors[i] = new Vector(m);
+        for (int i = 0; i < rowsAmount; i++) {
+            vectors[i] = new Vector(columnsAmount);
         }
     }
 
@@ -51,22 +51,25 @@ public class Matrix {
         }
     }
 
-    public Matrix(double[][] matrix) {
+    public Matrix(double[][] rows) {
         int maxLength = 0;
 
-        for (double[] row : matrix) {
+        for (double[] row : rows) {
             if (row.length > maxLength) {
                 maxLength = row.length;
             }
         }
 
-        vectors = new Vector[matrix.length];
+        if (maxLength == 0) {
+            throw new IllegalArgumentException("Количество столбцов в матрице должно быть больше 0.");
+        }
 
-        for (int i = 0; i < matrix.length; i++) {
-            vectors[i] = new Vector(maxLength, matrix[i]);
+        vectors = new Vector[rows.length];
+
+        for (int i = 0; i < rows.length; i++) {
+            vectors[i] = new Vector(maxLength, rows[i]);
         }
     }
-
 
     public int getRowsAmount() {
         return vectors.length;
@@ -78,7 +81,7 @@ public class Matrix {
 
     public Vector getRow(int rowIndex) {
         if (rowIndex >= this.getRowsAmount()) {
-            throw new IllegalArgumentException("Индекс строки не может быть больше или равен количеству строк в матрице." +
+            throw new IndexOutOfBoundsException("Индекс строки не может быть больше или равен количеству строк в матрице." +
                     " Количество строк в матрице" + this.getRowsAmount() + ", а вы ввели: " + rowIndex);
         }
 
@@ -87,7 +90,7 @@ public class Matrix {
 
     public void setRow(int rowIndex, Vector row) {
         if (rowIndex >= this.getRowsAmount()) {
-            throw new IllegalArgumentException("Индекс строки не может быть больше или равен количеству строк в матрице." +
+            throw new IndexOutOfBoundsException("Индекс строки не может быть больше или равен количеству строк в матрице." +
                     " Количество строк в матрице" + this.getRowsAmount() + ", а вы ввели: " + rowIndex);
         }
 
@@ -96,10 +99,9 @@ public class Matrix {
 
     public Vector getColumn(int columnIndex) {
         if (columnIndex >= this.getColumnsAmount()) {
-            throw new IllegalArgumentException("Индекс столбца не может быть больше или равен количеству столбцов в матрице." +
+            throw new IndexOutOfBoundsException("Индекс столбца не может быть больше или равен количеству столбцов в матрице." +
                     " Количество столбцов в матрице" + this.getColumnsAmount() + ", а вы ввели: " + columnIndex);
         }
-
 
         Vector column = new Vector(this.getRowsAmount());
 
@@ -111,9 +113,13 @@ public class Matrix {
     }
 
     public void setColumn(int columnIndex, Vector column) {
+        if (columnIndex < 0) {
+            throw new IndexOutOfBoundsException("Индекс столбца не может быть меньше 0, а вы ввели: " + columnIndex);
+        }
+
         if (columnIndex >= this.getColumnsAmount()) {
-            throw new IllegalArgumentException("Индекс столбца не может быть больше или равен количеству столбцов в матрице." +
-                    " Количество столбцов в матрице" + this.getColumnsAmount() + ", а вы ввели: " + columnIndex);
+            throw new IndexOutOfBoundsException("Индекс столбца не может быть больше или равен количеству столбцов в матрице. " +
+                    "Количество столбцов в матрице: " + this.getColumnsAmount() + ", а вы ввели: " + columnIndex);
         }
 
         for (int i = 0; i < this.getRowsAmount(); i++) {
@@ -174,11 +180,9 @@ public class Matrix {
         int sign = 1;
 
         for (int i = 0; i < matrix.getRowsAmount() - 1; i++) {
-            int j = i;
+            int j = i + 1;
 
             while (matrix.vectors[i].getComponent(i) == 0) {
-                j++;
-
                 if (j == matrix.getRowsAmount()) {
                     return 0;
                 }
@@ -188,6 +192,8 @@ public class Matrix {
                     sign *= -1;
                     break;
                 }
+
+                j++;
             }
 
             subtractRow(matrix, i);
@@ -200,7 +206,6 @@ public class Matrix {
             determinant *= matrix.vectors[i].getComponent(i);
         }
 
-        System.out.println(matrix);
         return determinant * sign;
     }
 
@@ -244,17 +249,13 @@ public class Matrix {
         return resultVector;
     }
 
-    public static Matrix add(Matrix matrix1, Matrix matrix2) {
-        checkRowsAndColumnsAmount(matrix1, matrix2);
-
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
         Matrix sumMatrix = new Matrix(matrix1);
         sumMatrix.add(matrix2);
         return sumMatrix;
     }
 
-    public static Matrix subtract(Matrix matrix1, Matrix matrix2) {
-        checkRowsAndColumnsAmount(matrix1, matrix2);
-
+    public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
         Matrix subrtactedMatrix = new Matrix(matrix1);
         subrtactedMatrix.subtract(matrix2);
         return subrtactedMatrix;

@@ -27,8 +27,16 @@ public class Main {
         }
 
         try {
-            Matrix matrix2 = new Matrix(2, -2);
-            System.out.println(matrix2);
+            Matrix matrix1 = new Matrix(2, -2);
+            System.out.println(matrix1);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        try {
+            double[][] matrix = {{}, {}};
+            Matrix matrix1 = new Matrix(matrix);
+            System.out.println(matrix1);
         } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
@@ -114,8 +122,8 @@ public class Main {
 
         matrix1.subtract(matrix2);
         System.out.println(matrix1);
-        System.out.println(Matrix.add(matrix1,matrix2));
-        System.out.println(Matrix.subtract(matrix1, matrix2));
+        System.out.println(Matrix.getSum(matrix1, matrix2));
+        System.out.println(Matrix.getDifference(matrix1, matrix2));
     }
 
     public static void testGetDeterminant() {
@@ -123,6 +131,8 @@ public class Main {
 
         Matrix matrix1 = new Matrix(new double[][]{{2, 3, 5}, {7, 11, 13}, {17, 19, 23}});
         System.out.println(matrix1.getDeterminant());
+        Matrix matrix2 = new Matrix(new double[][]{{0, 0, 1}, {0, 1, 0}, {1, 0, 0}});
+        System.out.println(matrix2.getDeterminant());
     }
 
     public static void testMultiplication() {
