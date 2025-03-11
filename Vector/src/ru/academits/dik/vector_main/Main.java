@@ -90,24 +90,24 @@ public class Main {
     public static void testGetSetComponent() {
         System.out.println("Тест получения и задания компонента:");
 
-        Vector vector1 = new Vector(new double[]{1, 1, 1});
+        Vector vector = new Vector(new double[]{1, 1, 1});
 
         try {
-            vector1.getComponent(-1);
+            vector.getComponent(-1);
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e);
         }
 
-        System.out.println(vector1.getComponent(0));
+        System.out.println(vector.getComponent(0));
 
         try {
-            vector1.setComponent(-1, 9999);
+            vector.setComponent(-1, 9999);
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e);
         }
 
-        vector1.setComponent(0, 100500);
-        System.out.println(vector1);
+        vector.setComponent(0, 100500);
+        System.out.println(vector);
     }
 
     public static void testEquals() {
@@ -141,8 +141,8 @@ public class Main {
     public static void testGetSize() {
         System.out.println("Тест получения размерности векторов:");
 
-        Vector vector1 = new Vector(1);
-        System.out.println(vector1.getSize());
+        Vector vector = new Vector(1);
+        System.out.println(vector.getSize());
     }
 
     public static void testGetLength() {
@@ -158,16 +158,16 @@ public class Main {
     public static void testMultiplyByScalar() {
         System.out.println("Тест умножения вектора на скаляр:");
 
-        Vector vector1 = new Vector(new double[]{1, 1, 1});
-        vector1.multiplyByScalar(2);
-        System.out.println(vector1);
+        Vector vector = new Vector(new double[]{1, 1, 1});
+        vector.multiplyByScalar(2);
+        System.out.println(vector);
     }
 
     public static void testReverse() {
         System.out.println("Тест разворота векторов:");
 
-        Vector vector1 = new Vector(new double[]{1, 1, 1});
-        vector1.reverse();
-        System.out.println(vector1);
+        Vector vector = new Vector(new double[]{1, 1, 1});
+        vector.reverse();
+        System.out.println(vector);
     }
 }

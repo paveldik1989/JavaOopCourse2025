@@ -42,7 +42,7 @@ public class Vector {
             components = Arrays.copyOf(components, vector.components.length);
         }
 
-        for (int i = 0; i < Math.min(components.length, vector.components.length); i++) {
+        for (int i = 0; i < vector.components.length; i++) {
             components[i] += vector.components[i];
         }
     }
@@ -52,7 +52,7 @@ public class Vector {
             components = Arrays.copyOf(components, vector.components.length);
         }
 
-        for (int i = 0; i < Math.min(components.length, vector.components.length); i++) {
+        for (int i = 0; i < vector.components.length; i++) {
             components[i] -= vector.components[i];
         }
     }
@@ -106,8 +106,9 @@ public class Vector {
     }
 
     public static double getScalarProduct(Vector vector1, Vector vector2) {
-        double scalarProduct = 0;
         int minSize = Math.min(vector1.components.length, vector2.components.length);
+
+        double scalarProduct = 0;
 
         for (int i = 0; i < minSize; i++) {
             scalarProduct += vector1.components[i] * vector2.components[i];
