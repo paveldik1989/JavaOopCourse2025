@@ -4,7 +4,6 @@ import ru.academits.dik.vector.Vector;
 
 import java.util.Arrays;
 
-
 public class Matrix {
     private Vector[] rows;
 
@@ -58,7 +57,6 @@ public class Matrix {
             throw new IllegalArgumentException("Количество строк в матрице должно быть > 0. Передано значение: 0");
         }
 
-
         int maxLength = 0;
 
         for (double[] row : components) {
@@ -96,7 +94,7 @@ public class Matrix {
         checkRowIndex(rowIndex);
 
         if (row.getSize() != getColumnsAmount()) {
-            throw new IllegalArgumentException("Размер веткора должен быть равен количеству столбцов." +
+            throw new IllegalArgumentException("Размер вектора должен быть равен количеству столбцов." +
                     " Размер вектора: " + row.getSize() + ". Количество столбцов: " + getColumnsAmount());
         }
 
@@ -104,15 +102,15 @@ public class Matrix {
     }
 
     private void checkRowIndex(int rowIndex) {
-        if (rowIndex >= getRowsAmount() || rowIndex < 0) {
-            throw new IndexOutOfBoundsException("Индекс строки должен быть больше 0 и меньше количества строк в матрице." +
+        if (rowIndex < 0 || rowIndex >= getRowsAmount()) {
+            throw new IndexOutOfBoundsException("Индекс строки должен быть больше или равен 0 и меньше количества строк в матрице." +
                     " Количество строк в матрице: " + getRowsAmount() + ". Передано значение: " + rowIndex);
         }
     }
 
     private void checkColumnIndex(int columnIndex) {
-        if (columnIndex >= getColumnsAmount() || columnIndex < 0) {
-            throw new IndexOutOfBoundsException("Индекс столбца должен быть больше 0 и меньше количества столбцов в матрице." +
+        if (columnIndex < 0 || columnIndex >= getColumnsAmount()) {
+            throw new IndexOutOfBoundsException("Индекс столбца должен быть больше или равен 0 и меньше количества столбцов в матрице." +
                     " Количество столбцов в матрице: " + getColumnsAmount() + ". Передано значение: " + columnIndex);
         }
     }
@@ -188,7 +186,7 @@ public class Matrix {
 
     public double getDeterminant() {
         if (getRowsAmount() != getColumnsAmount()) {
-            throw new UnsupportedOperationException("Для вычисления определителя количество строк должно быть равно количеству столбцов.");
+            throw new IllegalStateException("Для вычисления определителя количество строк должно быть равно количеству столбцов.");
         }
 
         Matrix matrix = new Matrix(this);
@@ -239,10 +237,17 @@ public class Matrix {
     }
 
     public static Matrix multiply(Matrix matrix1, Matrix matrix2) {
-        Matrix multipliedMatrix = new Matrix(matrix1.getRowsAmount(), matrix2.getColumnsAmount());
+        if (matrix1.getColumnsAmount() != matrix2.getRowsAmount()) {
+            throw new IllegalArgumentException("Количество столбцов в первой матрице должно равняться количеству строк во второй матрице. " +
+                    "Количество столбцов в первой матрице: " + matrix1.getColumnsAmount() + ". Количество строк во второй матрице: " + matrix2.getRowsAmount());
+        }
 
-        for (int i = 0; i < matrix1.getRowsAmount(); i++) {
-            for (int j = 0; j < matrix2.getColumnsAmount(); j++) {
+        Matrix multipliedMatrix = new Matrix(matrix1.getRowsAmount(), matrix2.getColumnsAmount());
+        final int rowsAmount = matrix1.getRowsAmount();
+        final int columnsAmount = matrix2.getColumnsAmount();
+
+        for (int i = 0; i < rowsAmount; i++) {
+            for (int j = 0; j < columnsAmount; j++) {
                 multipliedMatrix.rows[i].setComponent(j, Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j)));
             }
         }
@@ -306,13 +311,7 @@ public class Matrix {
             return false;
         }
 
-        for (int i = 0; i < getRowsAmount(); i++) {
-            if (!rows[i].equals(matrix.rows[i])) {
-                return false;
-            }
-        }
-
-        return true;
+        return Arrays.equals(rows, matrix.rows);
     }
 
     @Override

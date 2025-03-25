@@ -136,6 +136,7 @@ public class Main {
     }
 
     public static void testMultiplication() {
+        System.out.println("Тест умножения матриц:");
         Vector[] vectors1 = {new Vector(new double[]{2, 1}), new Vector(new double[]{-3, 0}), new Vector(new double[]{4, -1})};
         Vector[] vectors2 = {new Vector(new double[]{5, -1, 6}), new Vector(new double[]{-3, 0, 7})};
         Matrix matrix1 = new Matrix(vectors1);
