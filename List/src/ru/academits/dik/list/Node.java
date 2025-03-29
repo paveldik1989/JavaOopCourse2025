@@ -1,6 +1,6 @@
-package ru.academits.dik.node;
+package ru.academits.dik.list;
 
-public class Node<E> {
+class Node<E> {
     private E value;
     private Node<E> next;
 
@@ -13,7 +13,7 @@ public class Node<E> {
         return value;
     }
 
-    public void setValue(E value){
+    public void setValue(E value) {
         this.value = value;
     }
 
@@ -23,5 +23,10 @@ public class Node<E> {
 
     public void setNext(Node<E> next) {
         this.next = next;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + value + ", " + next + "}";
     }
 }

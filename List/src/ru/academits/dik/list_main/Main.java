@@ -54,7 +54,11 @@ public class Main {
         list.addFirst(3);
         list.addFirst(4);
         list.addFirst(5);
-        list.add(1, 327);
+        System.out.println("Исходный список: "+list);
+        int index = 2;
+        System.out.println("Индекс для добавления элемента: " + index);
+
+        list.add(index, 327);
 
         System.out.println(list);
         System.out.println();
@@ -98,7 +102,11 @@ public class Main {
         list.addFirst(3);
         list.addFirst(4);
         list.addFirst(5);
-        System.out.println("Удален элемент: " + list.remove(1));
+        System.out.println("Исходный список: "+list);
+        int index = 2;
+        System.out.println("Индекс для удаления элемента: " + index);
+
+        System.out.println("Удален элемент: " + list.remove(index));
 
         System.out.println(list);
         System.out.println();
@@ -141,10 +149,12 @@ public class Main {
         list.addFirst(2);
         list.addFirst(3);
         list.addFirst(4);
-        list.addFirst(5);
+        list.addFirst(null);
+        System.out.println(list);
 
-        Integer x = 100;
+        Integer x = null;
         System.out.println("Удаление значения " + x + ", " + list.remove(x));
+        System.out.println(list);
 
         x = 3;
         System.out.println("Удаление значения " + x + ", " + list.remove(x));
@@ -154,6 +164,10 @@ public class Main {
 
     public static void testReverse() {
         System.out.println("Тест разворота списка:");
+        List<Integer> list0 = new List<>();
+        System.out.println("Исходный список: " + list0);
+        list0.reverse();
+        System.out.println("Развернутый список: " + list0);
 
         List<Integer> list = new List<>();
         list.addFirst(1);
@@ -178,6 +192,7 @@ public class Main {
         list.addFirst(4);
         list.addFirst(5);
 
+        System.out.println(list);
         List<Integer> coppiedList = list.copy();
 
         list.removeFirst();
