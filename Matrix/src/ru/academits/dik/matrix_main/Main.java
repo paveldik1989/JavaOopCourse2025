@@ -144,7 +144,7 @@ public class Main {
 
         System.out.println(matrix1);
         System.out.println(matrix2);
-        System.out.println(Matrix.multiply(matrix1, matrix2));
+        System.out.println(Matrix.getProduct(matrix1, matrix2));
     }
 
     public static void testMultiplicationByVector() {

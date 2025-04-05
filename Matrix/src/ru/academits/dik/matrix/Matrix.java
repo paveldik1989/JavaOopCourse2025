@@ -236,7 +236,7 @@ public class Matrix {
         }
     }
 
-    public static Matrix multiply(Matrix matrix1, Matrix matrix2) {
+    public static Matrix getProduct(Matrix matrix1, Matrix matrix2) {
         if (matrix1.getColumnsAmount() != matrix2.getRowsAmount()) {
             throw new IllegalArgumentException("Количество столбцов в первой матрице должно равняться количеству строк во второй матрице. " +
                     "Количество столбцов в первой матрице: " + matrix1.getColumnsAmount() + ". Количество строк во второй матрице: " + matrix2.getRowsAmount());
