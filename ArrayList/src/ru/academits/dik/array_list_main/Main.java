@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-
 public class Main {
     public static void main(String[] args) {
         testConstructors();
@@ -20,6 +19,7 @@ public class Main {
         testRetainAll();
         testRemoveAll();
         testContainsAll();
+        testClear();
     }
 
     private static void testConstructors() {
@@ -28,13 +28,13 @@ public class Main {
         System.out.println(list1);
         System.out.println(list2);
 
-        list1.add(1);
+        list1.add(null);
         list1.add(2);
         list1.add(3);
         list1.trimToSize();
         System.out.println(list1);
 
-        list2.add(1);
+        list2.add(null);
         list2.add(2);
         list2.add(3);
         System.out.println(list2);
@@ -46,9 +46,11 @@ public class Main {
         System.out.println(list1);
         System.out.println(list2);
 
-        for (int i = 1; i < 1000; i++) {
+        for (int i = 0; i < 1000; i++) {
             list1.add(i);
         }
+
+        list1.add(5, 327);
 
         for (int i = 0; i < 1000; i++) {
             list2.add(i, i);
@@ -64,7 +66,7 @@ public class Main {
         System.out.println(list1.isEmpty());
         System.out.println(list2.isEmpty());
 
-        list1.add(100);
+        list1.add(null);
         System.out.println(list1.isEmpty());
 
         list1.remove(0);
@@ -78,10 +80,10 @@ public class Main {
 
     private static void testContains() {
         ArrayList<Integer> list = new ArrayList<>();
-        list.add(1);
+        list.add(null);
         list.add(2);
         list.add(3);
-        System.out.println(list.contains(1));
+        System.out.println(list.contains(null));
         System.out.println(list.contains(10));
     }
 
@@ -89,12 +91,12 @@ public class Main {
         ArrayList<Integer> list = new ArrayList<>();
         System.out.println(list.iterator().hasNext());
 
-        list.add(1);
+        list.add(null);
         list.add(2);
-        list.add(3);
+        list.add(null);
 
-        for (Integer i : list) {
-            System.out.println(i);
+        for (Integer integer : list) {
+            System.out.println(integer);
         }
 
         Iterator<Integer> iterator = list.iterator();
@@ -107,14 +109,14 @@ public class Main {
     private static void testToArray() {
         ArrayList<Integer> list1 = new ArrayList<>();
 
-        list1.add(101);
+        list1.add(null);
         list1.add(201);
-        list1.add(301);
+        list1.add(null);
 
         Object[] arr1 = list1.toArray();
         System.out.println(Arrays.toString(arr1));
 
-        Integer[] arr2 = {1, 2, 3, 4, 5, 6, 7};
+        Integer[] arr2 = {1, 2, 3, null, 5, 6, 7};
         arr2 = list1.toArray(arr2);
         System.out.println(Arrays.toString(arr2));
 
@@ -130,13 +132,13 @@ public class Main {
     private static void testAddAll() {
         ArrayList<Integer> arrayList = new ArrayList<>();
 
-        arrayList.add(1);
+        arrayList.add(null);
         arrayList.add(2);
         arrayList.add(3);
 
         LinkedList<Integer> linkedList1 = new LinkedList<>();
         linkedList1.add(101);
-        linkedList1.add(102);
+        linkedList1.add(null);
         linkedList1.add(103);
 
         arrayList.addAll(linkedList1);
@@ -145,9 +147,9 @@ public class Main {
         LinkedList<Integer> linkedList2 = new LinkedList<>();
         linkedList2.add(201);
         linkedList2.add(202);
-        linkedList2.add(203);
+        linkedList2.add(null);
 
-        arrayList.addAll(5, linkedList2);
+        arrayList.addAll(0, linkedList2);
         System.out.println(arrayList);
     }
 
@@ -161,35 +163,37 @@ public class Main {
         arrayList.add(3);
         arrayList.add(1);
         arrayList.add(2);
+        arrayList.add(null);
+        arrayList.add(null);
         arrayList.add(327);
 
-        System.out.println(arrayList.indexOf(2));
-        System.out.println(arrayList.lastIndexOf(3));
+        System.out.println(arrayList.indexOf(null));
+        System.out.println(arrayList.lastIndexOf(null));
         System.out.println(arrayList.lastIndexOf(999));
     }
 
     private static void testRetainAll() {
         ArrayList<Integer> arrayList1 = new ArrayList<>();
         arrayList1.add(1);
-        arrayList1.add(2);
+        arrayList1.add(null);
         arrayList1.add(3);
 
         LinkedList<Integer> linkedList1 = new LinkedList<>();
         linkedList1.add(101);
-        linkedList1.add(102);
+        linkedList1.add(null);
         linkedList1.add(103);
 
         arrayList1.retainAll(linkedList1);
         System.out.println(arrayList1);
 
         ArrayList<Integer> arrayList2 = new ArrayList<>();
-        arrayList2.add(1);
-        arrayList2.add(2);
+        arrayList2.add(null);
+        arrayList2.add(null);
         arrayList2.add(3);
 
         LinkedList<Integer> linkedList2 = new LinkedList<>();
-        linkedList2.add(1);
-        linkedList2.add(2);
+        linkedList2.add(null);
+        linkedList2.add(null);
         linkedList2.add(3);
         linkedList2.add(4);
 
@@ -199,14 +203,14 @@ public class Main {
 
     private static void testRemoveAll() {
         ArrayList<Integer> arrayList1 = new ArrayList<>();
-        arrayList1.add(1);
+        arrayList1.add(null);
         arrayList1.add(2);
         arrayList1.add(3);
 
         LinkedList<Integer> linkedList1 = new LinkedList<>();
         linkedList1.add(101);
         linkedList1.add(102);
-        linkedList1.add(103);
+        linkedList1.add(null);
 
         arrayList1.removeAll(linkedList1);
         System.out.println(arrayList1);
@@ -217,8 +221,8 @@ public class Main {
         arrayList2.add(3);
 
         LinkedList<Integer> linkedList2 = new LinkedList<>();
-        linkedList2.add(1);
-        linkedList2.add(2);
+        linkedList2.add(null);
+        linkedList2.add(null);
         linkedList2.add(3);
         linkedList2.add(4);
 
@@ -228,12 +232,12 @@ public class Main {
 
     private static void testContainsAll() {
         ArrayList<Integer> arrayList1 = new ArrayList<>();
-        arrayList1.add(1);
+        arrayList1.add(null);
         arrayList1.add(2);
         arrayList1.add(3);
 
         LinkedList<Integer> linkedList1 = new LinkedList<>();
-        linkedList1.add(101);
+        linkedList1.add(null);
         linkedList1.add(102);
         linkedList1.add(103);
 
@@ -243,15 +247,24 @@ public class Main {
         arrayList2.add(1);
         arrayList2.add(2);
         arrayList2.add(3);
-        arrayList2.add(4);
+        arrayList2.add(null);
 
         LinkedList<Integer> linkedList2 = new LinkedList<>();
         linkedList2.add(1);
         linkedList2.add(2);
         linkedList2.add(3);
-        linkedList2.add(4);
-        linkedList2.add(4);
+        linkedList2.add(null);
+        linkedList2.add(null);
 
         System.out.println(arrayList2.containsAll(linkedList2));
+    }
+
+    private static void testClear() {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(null);
+        list.add(3);
+        list.clear();
+        System.out.println(list);
     }
 }
