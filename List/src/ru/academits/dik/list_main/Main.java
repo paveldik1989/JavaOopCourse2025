@@ -54,7 +54,7 @@ public class Main {
         list.addFirst(3);
         list.addFirst(4);
         list.addFirst(5);
-        System.out.println("Исходный список: "+list);
+        System.out.println("Исходный список: " + list);
         int index = 2;
         System.out.println("Индекс для добавления элемента: " + index);
 
@@ -102,7 +102,7 @@ public class Main {
         list.addFirst(3);
         list.addFirst(4);
         list.addFirst(5);
-        System.out.println("Исходный список: "+list);
+        System.out.println("Исходный список: " + list);
         int index = 2;
         System.out.println("Индекс для удаления элемента: " + index);
 
@@ -144,22 +144,29 @@ public class Main {
     public static void testRemoveByValue() {
         System.out.println("Тест удаления значения элемента по значению:");
 
-        List<Integer> list = new List<>();
-        list.addFirst(1);
-        list.addFirst(2);
-        list.addFirst(3);
-        list.addFirst(4);
-        list.addFirst(null);
-        System.out.println(list);
+        List<Integer> list1 = new List<>();
+        list1.addFirst(1);
+        list1.addFirst(2);
+        list1.addFirst(3);
+        list1.addFirst(4);
+        list1.addFirst(null);
+        System.out.println(list1);
 
-        Integer x = null;
-        System.out.println("Удаление значения " + x + ", " + list.remove(x));
-        System.out.println(list);
+        Integer x1 = 327;
+        System.out.println("Удаление значения " + x1 + ", " + list1.remove(x1));
+        System.out.println(list1);
 
-        x = 3;
-        System.out.println("Удаление значения " + x + ", " + list.remove(x));
-        System.out.println(list);
-        System.out.println();
+        x1 = 2;
+        System.out.println("Удаление значения " + x1 + ", " + list1.remove(x1));
+        System.out.println(list1);
+
+        List<Integer> list2 = new List<>();
+        list2.addFirst(1);
+        System.out.println(list2);
+        Integer x2 = 1;
+
+        System.out.println(list2.remove(x2));
+        System.out.println(list2);
     }
 
     public static void testReverse() {

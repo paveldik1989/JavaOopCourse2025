@@ -1,5 +1,6 @@
 package ru.academits.dik.list;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class List<E> {
@@ -64,17 +65,18 @@ public class List<E> {
             return true;
         }
 
-        Node<E> currentNode = head;
+        Node<E> previousNode = head;
+        Node<E> currentNode = head.getNext();
 
-        while (currentNode.getNext() != null) {
-            Node<E> previousNode = currentNode;
-            currentNode = currentNode.getNext();
-
+        while (currentNode != null) {
             if (Objects.equals(currentNode.getValue(), value)) {
                 previousNode.setNext(currentNode.getNext());
                 size--;
                 return true;
             }
+
+            previousNode = currentNode;
+            currentNode = currentNode.getNext();
         }
 
         return false;
@@ -91,24 +93,14 @@ public class List<E> {
 
     public E getValue(int index) {
         checkIndex(index);
-
-        Node<E> currentNode = head;
-
-        for (int i = 0; i < index; i++) {
-            currentNode = currentNode.getNext();
-        }
+        Node<E> currentNode = getNodeByIndex(index);
 
         return currentNode.getValue();
     }
 
     public E setValue(int index, E value) {
         checkIndex(index);
-
-        Node<E> currentNode = head;
-
-        for (int i = 0; i < index; i++) {
-            currentNode = currentNode.getNext();
-        }
+        Node<E> currentNode = getNodeByIndex(index);
 
         E oldValue = currentNode.getValue();
         currentNode.setValue(value);
@@ -121,18 +113,19 @@ public class List<E> {
         }
 
         List<E> copiedList = new List<>();
-        copiedList.head = new Node<>(head.getValue(), null);
+        copiedList.head = new Node<>();
         copiedList.size = size;
 
         Node<E> currentNode = head;
         Node<E> currentCopiedListNode = copiedList.head;
 
-        while (currentNode.getNext() != null) {
-            currentNode = currentNode.getNext();
-            currentCopiedListNode.setNext(new Node<>(currentNode.getValue(), null));
+        while (currentNode != null) {
+            currentCopiedListNode.setNext(new Node<>(currentNode.getValue()));
             currentCopiedListNode = currentCopiedListNode.getNext();
+            currentNode = currentNode.getNext();
         }
 
+        copiedList.head = copiedList.head.getNext();
         return copiedList;
     }
 
@@ -159,42 +152,35 @@ public class List<E> {
         StringBuilder sb = new StringBuilder();
 
         Node<E> currentNode = head;
-        sb.append('[').append(currentNode.getValue());
+        sb.append('[');
 
-        while (currentNode.getNext() != null) {
+        while (currentNode != null) {
+            sb.append(currentNode.getValue()).append(", ");
             currentNode = currentNode.getNext();
-            sb.append(", ").append(currentNode.getValue());
         }
 
-        sb.append(']');
+        sb.deleteCharAt(sb.length() - 2);
+        sb.setCharAt(sb.length()-1,']');
         return sb.toString();
     }
 
     private void checkIsEmpty() {
         if (head == null) {
-            throw new NullPointerException("Список пуст.");
+            throw new NoSuchElementException("Список пуст.");
         }
     }
 
     private void checkIndex(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Индекс не может быть меньше 0, вы указали индекс: " + index);
-        }
-
-        if (index >= size) {
-            throw new IndexOutOfBoundsException("Индекс не может быть больше или равен числу элементов в списке, вы указали индекс: "
-                    + index + ". Число элементов в списке: " + size);
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Индекс не может быть меньше 0 и не может быть больше или равен числу элементов в списке." +
+                    " Вы указали индекс: " + index + ". Число элементов в списке: " + size);
         }
     }
 
     private void checkIndexForAdd(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Индекс не может быть меньше 0, вы указали индекс: " + index);
-        }
-
-        if (index > size) {
-            throw new IndexOutOfBoundsException("Индекс не может быть больше числа элементов в списке, вы указали индекс: "
-                    + index + ". Число элементов в списке: " + size);
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Индекс не может быть меньше 0 и не может быть больше числа элементов в списке" +
+                    ". Вы указали индекс: " + index + ". Число элементов в списке: " + size);
         }
     }
 

@@ -9,6 +9,13 @@ class Node<E> {
         this.next = next;
     }
 
+    public Node(E value) {
+        this.value = value;
+    }
+
+    public Node() {
+    }
+
     public E getValue() {
         return value;
     }
@@ -23,10 +30,5 @@ class Node<E> {
 
     public void setNext(Node<E> next) {
         this.next = next;
-    }
-
-    @Override
-    public String toString() {
-        return "{" + value + ", " + next + "}";
     }
 }
