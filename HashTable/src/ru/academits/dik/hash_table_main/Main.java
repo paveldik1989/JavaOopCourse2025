@@ -10,10 +10,10 @@ public class Main {
         HashTable<Integer> hashTable1 = new HashTable<>();
 
         HashTable<Integer> hashTable2 = new HashTable<>();
-        hashTable2.add(1);
+        hashTable2.add(null);
 
         HashTable<Integer> hashTable3 = new HashTable<>();
-
+        hashTable3.add(null);
         hashTable3.add(1);
         hashTable3.add(11);
         hashTable3.add(111);
@@ -21,6 +21,7 @@ public class Main {
         hashTable3.add(45677);
 
         HashTable<Integer> hashTable4 = new HashTable<>();
+        hashTable4.add(null);
         hashTable4.add(1);
         hashTable4.add(11);
         hashTable4.add(111);
@@ -49,14 +50,16 @@ public class Main {
     }
 
     private static void testConstructors() {
+        System.out.println("Тест constructors:");
         HashTable<Integer> hashTable = new HashTable<>(20);
 
-        hashTable.add(2);
+        hashTable.add(null);
         hashTable.add(22);
         hashTable.add(222);
         hashTable.add(1);
 
         System.out.println(hashTable);
+        System.out.println();
     }
 
     private static void testSize(ArrayList<HashTable<Integer>> hashTables) {

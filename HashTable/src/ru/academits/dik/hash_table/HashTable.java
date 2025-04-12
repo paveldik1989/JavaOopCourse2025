@@ -4,22 +4,22 @@ import java.util.*;
 
 public class HashTable<E> implements Collection<E> {
     private static final int BUCKETS_DEFAULT_AMOUNT = 10;
+
     private int size;
     private int modCount;
-
-    ArrayList<E>[] buckets;
+    private final ArrayList<E>[] buckets;
 
     public HashTable() {
         this(BUCKETS_DEFAULT_AMOUNT);
     }
 
-    public HashTable(int bucketsAmount) {
-        if (bucketsAmount < 1) {
-            throw new IllegalArgumentException("Размер массива хэш-таблице должен быть > 0");
+    public HashTable(int bucketsCount) {
+        if (bucketsCount < 1) {
+            throw new IllegalArgumentException("Размер массива хэш-таблице должен быть > 0, передан размер массива: " + bucketsCount);
         }
 
         //noinspection unchecked
-        buckets = (ArrayList<E>[]) new ArrayList[bucketsAmount];
+        buckets = (ArrayList<E>[]) new ArrayList[bucketsCount];
     }
 
     @Override
@@ -34,17 +34,14 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean contains(Object o) {
-        if (buckets[getBucketIndex(o.hashCode())] == null) {
-            return false;
-        }
-
-        return buckets[getBucketIndex(o.hashCode())].contains(o);
+        int bucketIndex = getBucketIndex(o);
+        return buckets[bucketIndex] != null && buckets[bucketIndex].contains(o);
     }
 
     private class HashTableIterator implements Iterator<E> {
-        private int bucketIndex = 0;
+        private int bucketIndex;
         private int elementInBucketIndex = -1;
-        int elementIndex = -1;
+        private int elementIndex = -1;
         private final int initialModCount = modCount;
 
         @Override
@@ -84,22 +81,22 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public Object[] toArray() {
-        Object[] resultedArray = new Object[size];
+        Object[] resultArray = new Object[size];
         int i = 0;
 
         for (E element : this) {
-            resultedArray[i] = element;
+            resultArray[i] = element;
             i++;
         }
 
-        return resultedArray;
+        return resultArray;
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        if (a.length <= size) {
+        if (a.length < size) { // Не понятно почему случай когда размер одинаковый не тот?
             //noinspection unchecked
-            return (T[]) Arrays.copyOf(toArray(), size, a.getClass()); // TODO разобраться с a.getClass()
+            return (T[]) Arrays.copyOf(toArray(), size, a.getClass());
         }
 
         int i = 0;
@@ -110,14 +107,16 @@ public class HashTable<E> implements Collection<E> {
             i++;
         }
 
-        a[i] = null;
+        if (a.length > size) {
+            a[size] = null;
+        }
 
         return a;
     }
 
     @Override
     public boolean add(E e) {
-        int bucketIndex = getBucketIndex(e.hashCode());
+        int bucketIndex = getBucketIndex(e);
 
         if (buckets[bucketIndex] == null) {
             buckets[bucketIndex] = new ArrayList<>();
@@ -131,13 +130,20 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean remove(Object o) {
-        if (buckets[getBucketIndex(o.hashCode())] == null) {
+        int bucketIndex = getBucketIndex(o);
+
+        if (size == 0 || buckets[bucketIndex] == null || buckets[bucketIndex].isEmpty()) {
             return false;
         }
 
-        size--;
-        modCount++;
-        return buckets[getBucketIndex(o.hashCode())].remove(o);
+        boolean isRemoved = buckets[bucketIndex].remove(o);
+
+        if (isRemoved) {
+            size--;
+            modCount++;
+        }
+
+        return isRemoved;
     }
 
     @Override
@@ -153,42 +159,26 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        boolean isChanged = false;
+        if (c.isEmpty()) {
+            return false;
+        }
 
         for (E element : c) {
-            if (add(element)) {
-                isChanged = true;
-            }
+            add(element);
         }
 
         size += c.size();
-        modCount++;
-        return isChanged;
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
         boolean isChanged = false;
 
-        for (Object element : c) {
-            if (remove(element)) {
-                isChanged = true;
-                size--;
-                modCount++;
-            }
-        }
-
-        return isChanged;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        boolean isChanged = false;
-
         for (ArrayList<E> bucket : buckets) {
             if (bucket != null) {
                 int sizeBeforeRemove = bucket.size();
-                isChanged = bucket.retainAll(c);
+                isChanged = bucket.removeAll(c);
                 size -= sizeBeforeRemove - bucket.size();
             }
         }
@@ -201,8 +191,42 @@ public class HashTable<E> implements Collection<E> {
     }
 
     @Override
+    public boolean retainAll(Collection<?> c) {
+        boolean isChanged = false;
+
+        for (ArrayList<E> bucket : buckets) {
+            if (bucket != null && !bucket.isEmpty()) {
+                int sizeBeforeRemove = bucket.size();
+
+                if(bucket.retainAll(c)){
+                    isChanged = true;
+                    size -= sizeBeforeRemove - bucket.size();
+                }
+            }
+        }
+
+        if (isChanged) {
+            modCount++;
+        }
+
+        return isChanged;
+    }
+
+    @Override
     public void clear() {
-        Arrays.fill(buckets, null);
+        if (size == 0) {
+            return;
+        }
+
+        for (ArrayList<E> bucket : buckets) {
+            if (bucket == null || bucket.isEmpty()) {
+                continue;
+            }
+
+            bucket.clear();
+        }
+
+        modCount++;
         size = 0;
     }
 
@@ -211,7 +235,11 @@ public class HashTable<E> implements Collection<E> {
         return Arrays.toString(buckets);
     }
 
-    private int getBucketIndex(int hashCode) {
-        return Math.abs(hashCode % buckets.length);
+    private int getBucketIndex(Object o) {
+        if (o == null) {
+            return 0;
+        }
+
+        return Math.abs(o.hashCode() % buckets.length);
     }
 }
