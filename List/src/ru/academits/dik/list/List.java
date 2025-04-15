@@ -93,13 +93,13 @@ public class List<E> {
 
     public E getValue(int index) {
         checkIndex(index);
-        Node<E> currentNode = getNodeByIndex(index);
 
-        return currentNode.getValue();
+        return getNodeByIndex(index).getValue();
     }
 
     public E setValue(int index, E value) {
         checkIndex(index);
+
         Node<E> currentNode = getNodeByIndex(index);
 
         E oldValue = currentNode.getValue();
@@ -113,10 +113,10 @@ public class List<E> {
         }
 
         List<E> copiedList = new List<>();
-        copiedList.head = new Node<>();
+        copiedList.head = new Node<>(head.getValue());
         copiedList.size = size;
 
-        Node<E> currentNode = head;
+        Node<E> currentNode = head.getNext();
         Node<E> currentCopiedListNode = copiedList.head;
 
         while (currentNode != null) {
@@ -125,7 +125,6 @@ public class List<E> {
             currentNode = currentNode.getNext();
         }
 
-        copiedList.head = copiedList.head.getNext();
         return copiedList;
     }
 
@@ -160,7 +159,7 @@ public class List<E> {
         }
 
         sb.deleteCharAt(sb.length() - 2);
-        sb.setCharAt(sb.length()-1,']');
+        sb.setCharAt(sb.length() - 1, ']');
         return sb.toString();
     }
 

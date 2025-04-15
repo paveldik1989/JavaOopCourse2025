@@ -13,9 +13,6 @@ class Node<E> {
         this.value = value;
     }
 
-    public Node() {
-    }
-
     public E getValue() {
         return value;
     }
