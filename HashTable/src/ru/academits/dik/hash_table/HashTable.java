@@ -3,14 +3,14 @@ package ru.academits.dik.hash_table;
 import java.util.*;
 
 public class HashTable<E> implements Collection<E> {
-    private static final int BUCKETS_DEFAULT_AMOUNT = 10;
+    private static final int BUCKETS_DEFAULT_COUNT = 10;
 
     private int size;
     private int modCount;
     private final ArrayList<E>[] buckets;
 
     public HashTable() {
-        this(BUCKETS_DEFAULT_AMOUNT);
+        this(BUCKETS_DEFAULT_COUNT);
     }
 
     public HashTable(int bucketsCount) {
@@ -132,7 +132,7 @@ public class HashTable<E> implements Collection<E> {
     public boolean remove(Object o) {
         int bucketIndex = getBucketIndex(o);
 
-        if (size == 0 || buckets[bucketIndex] == null || buckets[bucketIndex].isEmpty()) {
+        if (buckets[bucketIndex] == null) {
             return false;
         }
 
@@ -167,7 +167,6 @@ public class HashTable<E> implements Collection<E> {
             add(element);
         }
 
-        size += c.size();
         return true;
     }
 
@@ -178,8 +177,11 @@ public class HashTable<E> implements Collection<E> {
         for (ArrayList<E> bucket : buckets) {
             if (bucket != null) {
                 int sizeBeforeRemove = bucket.size();
-                isChanged = bucket.removeAll(c);
-                size -= sizeBeforeRemove - bucket.size();
+
+                if (bucket.removeAll(c)) {
+                    isChanged = true;
+                    size -= sizeBeforeRemove - bucket.size();
+                }
             }
         }
 
@@ -195,10 +197,10 @@ public class HashTable<E> implements Collection<E> {
         boolean isChanged = false;
 
         for (ArrayList<E> bucket : buckets) {
-            if (bucket != null && !bucket.isEmpty()) {
+            if (bucket != null) {
                 int sizeBeforeRemove = bucket.size();
 
-                if(bucket.retainAll(c)){
+                if (bucket.retainAll(c)) {
                     isChanged = true;
                     size -= sizeBeforeRemove - bucket.size();
                 }
@@ -214,16 +216,10 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public void clear() {
-        if (size == 0) {
-            return;
-        }
-
         for (ArrayList<E> bucket : buckets) {
-            if (bucket == null || bucket.isEmpty()) {
-                continue;
+            if (bucket != null) {
+                bucket.clear();
             }
-
-            bucket.clear();
         }
 
         modCount++;
