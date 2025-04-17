@@ -171,21 +171,21 @@ public class Main {
 
     public static void testReverse() {
         System.out.println("Тест разворота списка:");
-        List<Integer> list0 = new List<>();
-        System.out.println("Исходный список: " + list0);
-        list0.reverse();
-        System.out.println("Развернутый список: " + list0);
+        List<Integer> list1 = new List<>();
+        System.out.println("Исходный список: " + list1);
+        list1.reverse();
+        System.out.println("Развернутый список: " + list1);
 
-        List<Integer> list = new List<>();
-        list.addFirst(1);
-        list.addFirst(2);
-        list.addFirst(3);
-        list.addFirst(4);
-        list.addFirst(5);
-        System.out.println("Исходный список: " + list);
+        List<Integer> list2 = new List<>();
+        list2.addFirst(1);
+        list2.addFirst(2);
+        list2.addFirst(3);
+        list2.addFirst(4);
+        list2.addFirst(5);
+        System.out.println("Исходный список: " + list2);
 
-        list.reverse();
-        System.out.println("Развернутый список: " + list);
+        list2.reverse();
+        System.out.println("Развернутый список: " + list2);
         System.out.println();
     }
 
