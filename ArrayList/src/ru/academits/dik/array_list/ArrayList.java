@@ -51,7 +51,7 @@ public class ArrayList<E> implements List<E> {
 
     private class ArrayListIterator implements Iterator<E> {
         private int index = -1;
-        private final int currentModificationsCount = modificationsCount;
+        private final int initialModificationsCount = modificationsCount;
 
         @Override
         public boolean hasNext() {
@@ -64,8 +64,8 @@ public class ArrayList<E> implements List<E> {
                 throw new NoSuchElementException("Список закончился.");
             }
 
-            if (currentModificationsCount != modificationsCount) {
-                throw new ConcurrentModificationException("Во время вызова метода произошло изменение размеров списка.");
+            if (initialModificationsCount != modificationsCount) {
+                throw new ConcurrentModificationException("Во время вызова метода произошло изменение списка.");
             }
 
             index++;
@@ -115,16 +115,26 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         checkIndexToAdd(index);
+
+        if (c.isEmpty()) {
+            return false;
+        }
+
         ensureCapacity(size + c.size());
 
         if (index < size) {
             System.arraycopy(elements, index, elements, index + c.size(), size - index);
         }
 
-        //noinspection SuspiciousSystemArraycopy
-        System.arraycopy(c.toArray(), 0, elements, index, c.size());
-        size += c.size();
+        int i = index;
+
+        for (E element : c) {
+            elements[i] = element;
+            i++;
+        }
+
         modificationsCount++;
+        size += c.size();
         return true;
     }
 
@@ -178,7 +188,7 @@ public class ArrayList<E> implements List<E> {
     public E remove(int index) {
         checkIndex(index);
 
-        E temp = elements[index];
+        E removedElement = elements[index];
 
         if (index != size - 1) {
             System.arraycopy(elements, index + 1, elements, index, size - index - 1);
@@ -187,7 +197,7 @@ public class ArrayList<E> implements List<E> {
         elements[size - 1] = null;
         size--;
         modificationsCount++;
-        return temp;
+        return removedElement;
     }
 
     @Override
@@ -292,7 +302,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public String toString() {
-        if (isEmpty()) {
+        if (size == 0) {
             return "[]";
         }
 
@@ -300,8 +310,7 @@ public class ArrayList<E> implements List<E> {
         stringBuilder.append('[');
 
         for (int i = 0; i < size; i++) {
-            stringBuilder.append(elements[i]);
-            stringBuilder.append(", ");
+            stringBuilder.append(elements[i]).append(", ");
         }
 
         stringBuilder.deleteCharAt(stringBuilder.length() - 2);
@@ -311,24 +320,51 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         ArrayList<?> arrayList = (ArrayList<?>) o;
 
         if (size != arrayList.size) {
             return false;
         }
 
-        return Objects.deepEquals(toArray(), arrayList.toArray());
+        for (int i = 0; i < size; i++) {
+            if (!Objects.equals(elements[i], arrayList.elements[i])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(toArray());
+        int hashCode = 1;
+
+        for (int i = 0; i < size; i++) {
+            int elementHashCode = 0;
+
+            if (elements[i] != null) {
+                elementHashCode = elements[i].hashCode();
+            }
+
+            hashCode = 13 * hashCode + elementHashCode;
+        }
+
+        return hashCode;
     }
 
     private void grow() {
         if (elements.length == 0) {
-            elements = Arrays.copyOf(elements, DEFAULT_CAPACITY);
+            //noinspection unchecked
+            elements = (E[]) new Object[DEFAULT_CAPACITY];
+            return;
         }
 
         elements = Arrays.copyOf(elements, 2 * elements.length);
