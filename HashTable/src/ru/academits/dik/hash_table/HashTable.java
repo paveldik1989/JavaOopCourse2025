@@ -216,6 +216,10 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public void clear() {
+        if (size == 0) {
+            return;
+        }
+
         for (ArrayList<E> bucket : buckets) {
             if (bucket != null) {
                 bucket.clear();
