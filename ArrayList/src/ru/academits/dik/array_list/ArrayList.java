@@ -346,9 +346,10 @@ public class ArrayList<E> implements List<E> {
     @Override
     public int hashCode() {
         int hashCode = 1;
+        final int PRIME_NUMBER = 13;
 
         for (int i = 0; i < size; i++) {
-            hashCode = 13 * hashCode + (elements[i] == null ? 0 : elements[i].hashCode());
+            hashCode = PRIME_NUMBER * hashCode + (elements[i] == null ? 0 : elements[i].hashCode());
         }
 
         return hashCode;
