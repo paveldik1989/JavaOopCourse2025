@@ -348,13 +348,7 @@ public class ArrayList<E> implements List<E> {
         int hashCode = 1;
 
         for (int i = 0; i < size; i++) {
-            int elementHashCode = 0;
-
-            if (elements[i] != null) {
-                elementHashCode = elements[i].hashCode();
-            }
-
-            hashCode = 13 * hashCode + elementHashCode;
+            hashCode = 13 * hashCode + (elements[i] == null ? 0 : elements[i].hashCode());
         }
 
         return hashCode;
