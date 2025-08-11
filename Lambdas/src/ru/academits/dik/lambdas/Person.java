@@ -1,4 +1,4 @@
-package ru.academits.dik.person;
+package ru.academits.dik.lambdas;
 
 public class Person {
     private String name;
