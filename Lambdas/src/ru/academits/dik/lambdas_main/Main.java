@@ -54,13 +54,13 @@ public class Main {
         }
 
         // Г) при помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст
-        Map<String, Double> namesAverageAge = persons.stream()
+        Map<String, Double> namesAverageAges = persons.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.averagingInt(Person::getAge)));
         System.out.print("Map, в котором ключи – имена, а значения – средний возраст: ");
-        System.out.println(namesAverageAge);
+        System.out.println(namesAverageAges);
 
         // Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
-        System.out.println("Люди, возраст которых от 20 до 45 в порядке убывания возраста: ");
+        System.out.println("Люди, возраст которых от 20 до 45 в порядке убывания возраста:");
         persons.stream()
                 .filter(person -> person.getAge() >= 20 && person.getAge() <= 45)
                 .sorted((p1, p2) -> p2.getAge() - p1.getAge())
@@ -71,24 +71,24 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Введите сколько корней чисел необходимо вычислить: ");
-        int elementsAmount = scanner.nextInt();
+        int squareRootsAmount = scanner.nextInt();
 
-        System.out.println("Корни: ");
+        System.out.println("Корни:");
         DoubleStream.iterate(0, x -> x + 1)
                 .map(Math::sqrt)
-                .limit(elementsAmount)
+                .limit(squareRootsAmount)
                 .forEach(System.out::println);
 
         // Попробовать реализовать бесконечный поток чисел Фибоначчи
         System.out.print("Введите сколько чисел Фибоначчи необходимо вычислить: ");
         int fibonacciNumbersAmount = scanner.nextInt();
 
-        System.out.println("Числа Фибоначчи: ");
+        System.out.println("Числа Фибоначчи:");
 
         Stream.iterate(new long[]{0, 1}, x -> {
                     long temp = x[0];
                     x[0] = x[1];
-                    x[1] = temp + x[1];
+                    x[1] += temp;
                     return x;
                 })
                 .mapToLong(x -> x[0])
