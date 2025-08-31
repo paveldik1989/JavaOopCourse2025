@@ -1,10 +1,10 @@
 package ru.academits.dik.tree_main;
 
-import ru.academits.dik.tree.BinaryTree;
+import ru.academits.dik.tree.BinarySearchTree;
 
 public class Main {
     public static void main(String[] args) {
-        BinaryTree<Integer> tree1 = new BinaryTree<>();
+        BinarySearchTree<Integer> tree1 = new BinarySearchTree<>();
         tree1.add(8);
         tree1.add(3);
         tree1.add(10);
@@ -25,15 +25,15 @@ public class Main {
         System.out.println(tree1.contains(18));
 
         System.out.println("Обход в глубину рекурсией:");
-        tree1.depthRecursionTraverse(System.out::println);
+        tree1.traverseDepthRecursion(System.out::println);
 
         System.out.println("Обход в глубину:");
-        tree1.depthTraverse(System.out::println);
+        tree1.traverseDepth(System.out::println);
 
         System.out.println("Проверка удаления:");
 
         for (int i = 0; i < 26; i++) {
-            BinaryTree<Integer> tree2 = new BinaryTree<>();
+            BinarySearchTree<Integer> tree2 = new BinarySearchTree<>();
             tree2.add(8);
             tree2.add(3);
             tree2.add(10);

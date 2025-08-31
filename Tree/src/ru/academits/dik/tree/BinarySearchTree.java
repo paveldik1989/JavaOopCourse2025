@@ -3,16 +3,16 @@ package ru.academits.dik.tree;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class BinaryTree<E> {
+public class BinarySearchTree<E> {
     private TreeNode<E> root;
     private int size;
     private final Comparator<E> comparator;
 
-    public BinaryTree(Comparator<E> comparator) {
+    public BinarySearchTree(Comparator<E> comparator) {
         this.comparator = comparator;
     }
 
-    public BinaryTree() {
+    public BinarySearchTree() {
         comparator = null;
     }
 
@@ -51,6 +51,10 @@ public class BinaryTree<E> {
     }
 
     public boolean contains(E element) {
+        if (root == null) {
+            return false;
+        }
+
         TreeNode<E> currentNode = root;
         int comparisonResult = compare(element, currentNode.getValue());
 
@@ -58,25 +62,24 @@ public class BinaryTree<E> {
             if (comparisonResult < 0) {
                 if (currentNode.getLeftChild() == null) {
                     return false;
-                } else {
-                    currentNode = currentNode.getLeftChild();
-                    comparisonResult = compare(element, currentNode.getValue());
                 }
+
+                currentNode = currentNode.getLeftChild();
             } else {
                 if (currentNode.getRightChild() == null) {
                     return false;
-                } else {
-                    currentNode = currentNode.getRightChild();
-                    comparisonResult = compare(element, currentNode.getValue());
                 }
+
+                currentNode = currentNode.getRightChild();
             }
+
+            comparisonResult = compare(element, currentNode.getValue());
         }
 
         return true;
     }
 
-
-    public void breadthTraverse(Consumer<E> consumer) {
+    public void traverseBreadth(Consumer<E> consumer) {
         if (root == null) {
             return;
         }
@@ -98,22 +101,22 @@ public class BinaryTree<E> {
         }
     }
 
-    public void depthRecursionTraverse(Consumer<E> consumer) {
-        depthRecursionTraverse(root, consumer);
+    public void traverseDepthRecursion(Consumer<E> consumer) {
+        traverseDepthRecursion(root, consumer);
     }
 
-    private void depthRecursionTraverse(TreeNode<E> currentNode, Consumer<E> consumer) {
+    private void traverseDepthRecursion(TreeNode<E> currentNode, Consumer<E> consumer) {
         if (currentNode == null) {
             return;
         }
 
         consumer.accept(currentNode.getValue());
 
-        depthRecursionTraverse(currentNode.getLeftChild(), consumer);
-        depthRecursionTraverse(currentNode.getRightChild(), consumer);
+        traverseDepthRecursion(currentNode.getLeftChild(), consumer);
+        traverseDepthRecursion(currentNode.getRightChild(), consumer);
     }
 
-    public void depthTraverse(Consumer<E> consumer) {
+    public void traverseDepth(Consumer<E> consumer) {
         if (root == null) {
             return;
         }
@@ -145,6 +148,7 @@ public class BinaryTree<E> {
         // 2. удаление узла с двумя детьми
         TreeNode<E> nodeToDeleteParent = null;
         TreeNode<E> nodeToDelete = root;
+
         boolean isLeftChild = false;
         int comparisonResult = compare(element, nodeToDelete.getValue());
 
@@ -153,32 +157,34 @@ public class BinaryTree<E> {
             if (comparisonResult < 0) {
                 if (nodeToDelete.getLeftChild() == null) {
                     return false;
-                } else {
-                    nodeToDeleteParent = nodeToDelete;
-                    nodeToDelete = nodeToDelete.getLeftChild();
-                    comparisonResult = compare(element, nodeToDelete.getValue());
-                    isLeftChild = true;
                 }
+
+                nodeToDeleteParent = nodeToDelete;
+                nodeToDelete = nodeToDelete.getLeftChild();
+                isLeftChild = true;
             } else {
                 if (nodeToDelete.getRightChild() == null) {
                     return false;
-                } else {
-                    nodeToDeleteParent = nodeToDelete;
-                    nodeToDelete = nodeToDelete.getRightChild();
-                    comparisonResult = compare(element, nodeToDelete.getValue());
-                    isLeftChild = false;
                 }
+
+                nodeToDeleteParent = nodeToDelete;
+                nodeToDelete = nodeToDelete.getRightChild();
+                isLeftChild = false;
             }
+
+            comparisonResult = compare(element, nodeToDelete.getValue());
         }
 
         // 1. Удаление листа либо узла с одним ребенком
         if (nodeToDelete.getLeftChild() == null) {
             linkReplacementNodeToNodeToDeleteParent(nodeToDeleteParent, nodeToDelete.getRightChild(), isLeftChild);
+            size--;
             return true;
         }
 
         if (nodeToDelete.getRightChild() == null) {
             linkReplacementNodeToNodeToDeleteParent(nodeToDeleteParent, nodeToDelete.getLeftChild(), isLeftChild);
+            size--;
             return true;
         }
 
@@ -210,7 +216,7 @@ public class BinaryTree<E> {
 
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        breadthTraverse(x -> sb.append(x).append(", "));
+        traverseBreadth(x -> sb.append(x).append(", "));
 
         sb.deleteCharAt(sb.length() - 1);
         sb.setCharAt(sb.length() - 1, ']');
@@ -247,7 +253,5 @@ public class BinaryTree<E> {
         } else {
             nodeToDeleteParent.setRightChild(replacementNode);
         }
-
-        size--;
     }
 }
