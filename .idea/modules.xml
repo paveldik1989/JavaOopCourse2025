@@ -12,6 +12,9 @@
       <module fileurl="file://$PROJECT_DIR$/Range/Range.iml" filepath="$PROJECT_DIR$/Range/Range.iml" />
       <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/Temperature/Temperature.iml" filepath="$PROJECT_DIR$/Temperature/Temperature.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TemperatureMVCMine/TemperatureMVCMine.iml" filepath="$PROJECT_DIR$/TemperatureMVCMine/TemperatureMVCMine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TemperatureMVPMine/TemperatureMVPMine.iml" filepath="$PROJECT_DIR$/TemperatureMVPMine/TemperatureMVPMine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TemperatureSimple/TemperatureSimple.iml" filepath="$PROJECT_DIR$/TemperatureSimple/TemperatureSimple.iml" />
       <module fileurl="file://$PROJECT_DIR$/TestTemperatureMVC/TestTemperatureMVC.iml" filepath="$PROJECT_DIR$/TestTemperatureMVC/TestTemperatureMVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/TestTemperatureMVP/TestTemperatureMVP.iml" filepath="$PROJECT_DIR$/TestTemperatureMVP/TestTemperatureMVP.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tree/Tree.iml" filepath="$PROJECT_DIR$/Tree/Tree.iml" />
